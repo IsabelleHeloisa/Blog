@@ -1,30 +1,21 @@
-import { useState } from 'react'
+import React from 'react'
+import { useState, useEffect } from 'react'
 import blogFetch from '../axios/config'
 
-import { useNavigate } from 'react-router-dom'
-import './NewPost.css'
+import { useParams, useNavigate } from 'react-router-dom'
 
-const NewPost = () => {
+const EditPost = () => {
   const navigate = useNavigate()
 
   const [title, setTitle] = useState()
   const [body, setBody] = useState()
 
-  const createPost = async e => {
-    e.preventDefault()
-
-    const post = { title, body, userId: 1 }
-
-    await blogFetch.post('/posts', {
-      body: post
-    })
-    navigate('/')
-  }
+  const { id } = useParams()
 
   return (
     <div className="new-post">
-      <h2>Inserir novo Post:</h2>
-      <form onSubmit={e => createPost(e)}>
+      <h2>Editando: {title}</h2>
+      <form onSubmit={e => editPost(e)}>
         <div className="form-control">
           <label htmlFor="title">Título:</label>
           <input
@@ -44,10 +35,10 @@ const NewPost = () => {
             onChange={e => setBody(e.target.value)}
           ></textarea>
         </div>
-        <input type="submit" value="Criar Post" className="btn" />
+        <input type="submit" value="Editar Post" className="btn" />
       </form>
     </div>
   )
 }
 
-export default NewPost
+export default EditPost
